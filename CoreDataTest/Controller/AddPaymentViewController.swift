@@ -9,48 +9,122 @@
 import UIKit
 import CoreData
 
-class AddPaymentViewController: UIViewController{
+class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PaymentTableViewCellDelegate{
+    
+    struct memberPayment {
+        var amount: Float = 0
+        var name: String = ""
+        var isSpecial: Bool = false
+    }
+    //Data
+    var member: [memberPayment] = []
+    var amount: Float = 0
+    var date: Date = Date()
+    var isPayOff: Bool = false
+    var name: String = ""
+    var rest: Float = 0
     
     //General
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    var selectedPlan : Plan?
-    var isPayment : Bool  = true
+    var selectedPlan : PlanList?
 
     @IBOutlet weak var paymentName: UITextField!
     @IBOutlet weak var paymentAmount: UITextField!
-    
+    @IBOutlet weak var payViewController: UITableView!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBAction func payType(_ sender: UISegmentedControl) {
         switch segmentControl.selectedSegmentIndex {
         case 0:
-            isPayment = true
+            isPayOff = true
         case 1:
-            isPayment = false
+            isPayOff = false
         default:
-            isPayment = true
+            isPayOff = true
         }
     }
     
+    @IBAction func evenButton(_ sender: UIButton) {
+        for index in 0..<member.count{
+            member[index].isSpecial = false
+        }
+        changeAmount()
+    }
     
+    //计算费用
+    @objc func changeAmount(){
+        amount = (paymentAmount.text! as NSString).floatValue
+        rest = amount
+        for index in 0..<member.count{
+            if member[index].isSpecial{
+                rest = rest - member[index].amount
+            }
+        }
+        for index in 0..<member.count{
+            if !member[index].isSpecial{
+                member[index].amount = rest / Float(member.filter{!$0.isSpecial}.count)
+            }
+        }
+        payViewController.reloadData()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        payViewController.delegate = self
+        payViewController.dataSource = self
+        paymentAmount.addTarget(self, action: #selector(changeAmount), for: .editingChanged)
+        
+        //init Array
+        for memberInfo in (selectedPlan?.members)!{
+            if let memberData:Member = memberInfo as? Member{
+                var newMember = memberPayment()
+                newMember.amount = 0
+                newMember.name = memberData.name!
+                newMember.isSpecial = false
+                member.append(newMember)
+            }
+            
+        }
+        
         // Do any additional setup after loading the view.
     }
     
+    //MARK: - Cell Delegate Func
+    func updateAmount(index: Int, amount: Float, isSpecial: Bool) {
+        member[index].amount = amount
+        member[index].isSpecial = isSpecial
+        changeAmount()
+        payViewController.reloadData()
+    }
+    
+    //MARK: - TableView Datasource
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return member.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "payCell", for: indexPath) as! PaymentTableViewCell
+        cell.name.text = member[indexPath.row].name
+        cell.payment.text = String(member[indexPath.row].amount)
+        cell.indexNumber = indexPath.row
+        cell.isSpecial = false
+        cell.origin = String(member[indexPath.row].amount)
+        cell.delegate = self
+        cell.amount = (paymentAmount.text! as NSString).floatValue
+        return cell
+    }
+    
 
-//MARK: - ADD
+    //MARK: - ADD
     
     @IBAction func addPayment(_ sender: UIButton) {
         //写入数据库
         let context = self.getNSContext()
-        let entity = NSEntityDescription.entity(forEntityName: "SinglePayment", in: context)
-        let newPayment = SinglePayment(entity: entity!, insertInto: context)
+        let entity = NSEntityDescription.entity(forEntityName: "Pay", in: context)
+        let newPayment = Pay(entity: entity!, insertInto: context)
         newPayment.name = paymentName.text
-        newPayment.isPayment = self.isPayment
+        newPayment.isPayOff = self.isPayOff
         newPayment.date = Date() as NSDate
-        newPayment.plans = self.selectedPlan
+        newPayment.plan = self.selectedPlan
         do{
             try context.save()
         }catch{}

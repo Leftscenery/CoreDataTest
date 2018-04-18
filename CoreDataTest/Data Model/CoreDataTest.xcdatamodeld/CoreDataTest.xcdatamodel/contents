@@ -1,42 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="MemberPayment" representedClassName="MemberPayment" syncable="YES">
-        <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="payments" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="SinglePayment" inverseName="memberPayments" inverseEntity="SinglePayment" syncable="YES"/>
-    </entity>
-    <entity name="MemberSummary" representedClassName="MemberSummary" syncable="YES">
+    <entity name="Member" representedClassName="Member" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="paid" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="rest" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="plans" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="memberSummaries" inverseEntity="Plan" syncable="YES"/>
-        <relationship name="singlePayments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SinglePayment" syncable="YES"/>
+        <relationship name="pays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Pay" inverseName="member" inverseEntity="Pay" syncable="YES"/>
+        <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlanList" inverseName="members" inverseEntity="PlanList" syncable="YES"/>
     </entity>
-    <entity name="Plan" representedClassName="Plan" syncable="YES">
+    <entity name="Pay" representedClassName="Pay" syncable="YES">
+        <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="isPayOff" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="member" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Member" inverseName="pays" inverseEntity="Member" syncable="YES"/>
+        <relationship name="plan" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlanList" inverseName="pays" inverseEntity="PlanList" syncable="YES"/>
+    </entity>
+    <entity name="PlanList" representedClassName="PlanList" syncable="YES">
         <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="isCurrent" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="isPayoff" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="isPayOff" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="paid" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="rest" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="memberSummaries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MemberSummary" inverseName="plans" inverseEntity="MemberSummary" syncable="YES"/>
-        <relationship name="singlePays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SinglePayment" inverseName="plans" inverseEntity="SinglePayment" syncable="YES"/>
-    </entity>
-    <entity name="SinglePayment" representedClassName="SinglePayment" syncable="YES">
-        <attribute name="amount" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="isPayment" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="memberPayments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MemberPayment" inverseName="payments" inverseEntity="MemberPayment" syncable="YES"/>
-        <relationship name="plans" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Plan" inverseName="singlePays" inverseEntity="Plan" syncable="YES"/>
+        <relationship name="members" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Member" inverseName="plan" inverseEntity="Member" syncable="YES"/>
+        <relationship name="pays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Pay" inverseName="plan" inverseEntity="Pay" syncable="YES"/>
     </entity>
     <elements>
-        <element name="MemberPayment" positionX="457" positionY="72" width="128" height="88"/>
-        <element name="MemberSummary" positionX="241" positionY="171" width="128" height="133"/>
-        <element name="Plan" positionX="-27" positionY="18" width="128" height="178"/>
-        <element name="SinglePayment" positionX="187" positionY="-171" width="128" height="148"/>
+        <element name="PlanList" positionX="-63" positionY="-18" width="128" height="180"/>
+        <element name="Member" positionX="-54" positionY="45" width="128" height="135"/>
+        <element name="Pay" positionX="-36" positionY="81" width="128" height="135"/>
     </elements>
 </model>

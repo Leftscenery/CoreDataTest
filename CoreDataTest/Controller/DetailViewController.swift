@@ -14,7 +14,7 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
     //General
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     var fetchResultsControllerDetail: NSFetchedResultsController<NSFetchRequestResult>!
-    var selectedPlan : Plan?
+    var selectedPlan : PlanList?
     @IBOutlet var detailView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
     
@@ -55,28 +55,28 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
     
     //Edit
     @IBAction func editPlan(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Edit Current Plan", message:"Set New Plan Name", preferredStyle: .alert)
-        let alertActionCancel = UIAlertAction(title: "Cancel", style: .cancel){
-            (action) in
-            self.dismiss(animated: true, completion: nil)
-        }
-        let alertActionAdd = UIAlertAction(title: "Save", style: .default){
-            (action) in
-            //*更新Plan信息
-            self.selectedPlan?.name = alert.textFields?.first?.text
-            self.title = self.selectedPlan?.name
-            do{
-                try self.getNSContext().save()
-            }catch{}
-        }
-        
-        alert.addAction(alertActionCancel)
-        alert.addAction(alertActionAdd)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Please input payment name"
-        }
-        self.present(alert, animated: true)
-        
+//        let alert = UIAlertController(title: "Edit Current Plan", message:"Set New Plan Name", preferredStyle: .alert)
+//        let alertActionCancel = UIAlertAction(title: "Cancel", style: .cancel){
+//            (action) in
+//            self.dismiss(animated: true, completion: nil)
+//        }
+//        let alertActionAdd = UIAlertAction(title: "Save", style: .default){
+//            (action) in
+//            //*更新Plan信息
+//            self.selectedPlan?.name = alert.textFields?.first?.text
+//            self.title = self.selectedPlan?.name
+//            do{
+//                try self.getNSContext().save()
+//            }catch{}
+//        }
+//
+//        alert.addAction(alertActionCancel)
+//        alert.addAction(alertActionAdd)
+//        alert.addTextField { (textField) in
+//            textField.placeholder = "Please input payment name"
+//        }
+//        self.present(alert, animated: true)
+        performSegue(withIdentifier: "goToEditPlan", sender: self)
     }
     
 //MARK: - Main Code Start Here
@@ -92,8 +92,8 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         searchBar.delegate = self
 
         //FetchControllerSetting
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "SinglePayment")
-        let predicate = NSPredicate(format: "plans.name MATCHES %@", selectedPlan!.name!)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Pay")
+        let predicate = NSPredicate(format: "plan.name MATCHES %@", selectedPlan!.name!)
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchRequest.predicate = predicate
@@ -141,7 +141,7 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = detailView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
-        let object = fetchResultsControllerDetail.object(at: indexPath) as! SinglePayment
+        let object = fetchResultsControllerDetail.object(at: indexPath) as! Pay
         cell.textLabel?.text = object.name
         
         return cell
@@ -161,14 +161,14 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text != ""{
             let newSearchPredicate = NSPredicate(format: "name contains [cd] %@", searchBar.text!)
-            let predicate = NSPredicate(format: "plans.name MATCHES %@", selectedPlan!.name!)
+            let predicate = NSPredicate(format: "plan.name MATCHES %@", selectedPlan!.name!)
             let compoundPredicate  = NSCompoundPredicate(andPredicateWithSubpredicates: [newSearchPredicate, predicate])
             fetchResultsControllerDetail.fetchRequest.predicate = compoundPredicate
             do{
                 try fetchResultsControllerDetail.performFetch()
             }catch{}
         }else{
-            let predicate = NSPredicate(format: "plans.name MATCHES %@", selectedPlan!.name!)
+            let predicate = NSPredicate(format: "plan.name MATCHES %@", selectedPlan!.name!)
             fetchResultsControllerDetail.fetchRequest.predicate = predicate
             do{
                 try fetchResultsControllerDetail.performFetch()
@@ -179,7 +179,7 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         searchBar.text = ""
-        let predicate = NSPredicate(format: "plans.name MATCHES %@", selectedPlan!.name!)
+        let predicate = NSPredicate(format: "plan.name MATCHES %@", selectedPlan!.name!)
         fetchResultsControllerDetail.fetchRequest.predicate = predicate
         do{
             try fetchResultsControllerDetail.performFetch()
@@ -187,13 +187,18 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         detailView.reloadData()
     }
     
-//MARK: - 数据传输 添加
+//MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToAddPayment"{
             let destinationVC = segue.destination as! AddPaymentViewController
             destinationVC.selectedPlan = self.selectedPlan
         }
+        if segue.identifier == "goToEditPlan"{
+            let destinationVC = segue.destination as! EditPlanViewController
+            destinationVC.selectedPlan = self.selectedPlan
+        }
     }
+    
     
 //MARK: - CoreData方法集合
     //获取NSContext

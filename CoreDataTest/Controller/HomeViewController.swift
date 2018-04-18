@@ -18,31 +18,31 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate, 
     
 //MARK: - 添加新Plan
     @IBAction func addNew(_ sender: UIBarButtonItem) {
-        //alert
-        let alert = UIAlertController(title:"Add New Plan", message:"Please input plan information", preferredStyle: .alert)
-        let alertActionAdd = UIAlertAction(title: "Add", style: .cancel){
-            (action) in
-            //*写入数据库
-            let context = self.getNSContext()
-            let entity = NSEntityDescription.entity(forEntityName: "Plan", in: context)
-            let newPlan = Plan(entity: entity!, insertInto: context)
-            newPlan.name = alert.textFields?.first?.text
-            newPlan.date = Date() as NSDate
-            do{
-                try context.save()
-            }catch{}
-            self.dismiss(animated: true, completion: nil)
-        }
-        let alertActionCancel = UIAlertAction(title: "Cancel", style: .default){
-            (action) in
-            self.dismiss(animated: true, completion: nil)
-        }
-        alert.addAction(alertActionAdd)
-        alert.addAction(alertActionCancel)
-        alert.addTextField { (textField) in
-            textField.placeholder = "Please input plan name"
-        }
-        self.present(alert, animated: true)
+//        //alert
+//        let alert = UIAlertController(title:"Add New Plan", message:"Please input plan information", preferredStyle: .alert)
+//        let alertActionAdd = UIAlertAction(title: "Add", style: .cancel){
+//            (action) in
+//            //*写入数据库
+//            let context = self.getNSContext()
+//            let entity = NSEntityDescription.entity(forEntityName: "Plan", in: context)
+//            let newPlan = Plan(entity: entity!, insertInto: context)
+//            newPlan.name = alert.textFields?.first?.text
+//            newPlan.date = Date() as NSDate
+//            do{
+//                try context.save()
+//            }catch{}
+//            self.dismiss(animated: true, completion: nil)
+//        }
+//        let alertActionCancel = UIAlertAction(title: "Cancel", style: .default){
+//            (action) in
+//            self.dismiss(animated: true, completion: nil)
+//        }
+//        alert.addAction(alertActionAdd)
+//        alert.addAction(alertActionCancel)
+//        alert.addTextField { (textField) in
+//            textField.placeholder = "Please input plan name"
+//        }
+//        self.present(alert, animated: true)
     }
 
     
@@ -61,8 +61,8 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate, 
         searchBar.delegate = self
         
         //FetchControllerSetting
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Plan")
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "PlanList")
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         fetchRequest.predicate = nil
         fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.getNSContext(), sectionNameKeyPath: nil, cacheName: nil)
@@ -102,13 +102,13 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate, 
         }
     }
     
-//MARK: - Table View Delegate
+    //MARK: - Table View Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchResultsController.sections![section].numberOfObjects
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = mainView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        let object = fetchResultsController.object(at: indexPath) as! Plan
+        let object = fetchResultsController.object(at: indexPath) as! PlanList
         cell.textLabel?.text = object.name
         
         return cell
@@ -127,18 +127,18 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate, 
         performSegue(withIdentifier: "goToPlanDetail", sender: self)
     }
     
+    //MARK: - Segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToPlanDetail"{
             let destinationVC = segue.destination as! DetailViewController
             if let indexPath = mainView.indexPathForSelectedRow{
-                destinationVC.selectedPlan = (fetchResultsController.object(at: indexPath) as! Plan)
+                destinationVC.selectedPlan = (fetchResultsController.object(at: indexPath) as! PlanList)
             }
         }
     }
     
 //MARK: - searhBar delegate
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print("111")
         if searchBar.text != ""{
             let newSearchPredicate = NSPredicate(format: "name contains [cd] %@", searchBar.text!)
             fetchResultsController.fetchRequest.predicate = newSearchPredicate

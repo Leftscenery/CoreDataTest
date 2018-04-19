@@ -23,18 +23,19 @@ class PaymentTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        payment.addTarget(self, action: #selector(changeAmount), for: .editingChanged)
+        payment.delegate = self
         // Initialization code
     }
     
-    @objc func changeAmount() {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (payment.text! as NSString).floatValue > amount{
             payment.text = String(amount)
         }
         if payment.text != origin{
             isSpecial = true
-            delegate?.updateAmount(index: indexNumber, amount: (payment.text! as NSString).floatValue, isSpecial: isSpecial)
         }
+        delegate?.updateAmount(index: indexNumber, amount: (payment.text! as NSString).floatValue, isSpecial: isSpecial)
+        return true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

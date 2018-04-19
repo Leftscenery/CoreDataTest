@@ -2,7 +2,7 @@
 //  PlanList+CoreDataProperties.swift
 //  CoreDataTest
 //
-//  Created by Jiawei Zhou on 4/17/18.
+//  Created by Jiawei Zhou on 4/18/18.
 //  Copyright © 2018 Jiawei Zhou. All rights reserved.
 //
 //
@@ -17,11 +17,11 @@ extension PlanList {
         return NSFetchRequest<PlanList>(entityName: "PlanList")
     }
 
-    @NSManaged public var name: String?
+    @NSManaged public var amount: Float
     @NSManaged public var date: NSDate?
     @NSManaged public var isCurrent: Bool
     @NSManaged public var isPayOff: Bool
-    @NSManaged public var amount: Float
+    @NSManaged public var name: String?
     @NSManaged public var paid: Float
     @NSManaged public var rest: Float
     @NSManaged public var members: NSSet?

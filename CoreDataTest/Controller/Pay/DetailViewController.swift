@@ -143,7 +143,7 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         let cell = detailView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
         let object = fetchResultsControllerDetail.object(at: indexPath) as! Pay
         cell.textLabel?.text = object.name
-        
+        cell.detailTextLabel?.text = String(object.amount)
         return cell
     }
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {

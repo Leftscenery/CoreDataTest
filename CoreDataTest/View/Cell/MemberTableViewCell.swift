@@ -30,7 +30,7 @@ class MemberTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         delegate?.updateMemberInfo(index: indexNumber, text: textField.text!)
-        return true;
+        return true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C423C6D42085865A00DF6C1D /* SinglePlanDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423C6D32085865A00DF6C1D /* SinglePlanDetailViewController.swift */; };
 		C423C6D8208594CF00DF6C1D /* AddPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423C6D7208594CF00DF6C1D /* AddPlanViewController.swift */; };
 		C423C6E0208597B900DF6C1D /* MemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C423C6DF208597B900DF6C1D /* MemberTableViewCell.swift */; };
 		C46720792067F84B00FDAA91 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46720782067F84B00FDAA91 /* DetailViewController.swift */; };
@@ -19,18 +18,19 @@
 		C47EBAD72065F77F007B1AC6 /* CoreDataTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C47EBAD52065F77F007B1AC6 /* CoreDataTest.xcdatamodeld */; };
 		C47EBAD92065F77F007B1AC6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C47EBAD82065F77F007B1AC6 /* Assets.xcassets */; };
 		C47EBADC2065F77F007B1AC6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C47EBADA2065F77F007B1AC6 /* LaunchScreen.storyboard */; };
-		C4EA847E2085D429006A98BF /* Member+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA84782085D429006A98BF /* Member+CoreDataClass.swift */; };
-		C4EA847F2085D429006A98BF /* Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA84792085D429006A98BF /* Member+CoreDataProperties.swift */; };
-		C4EA84802085D429006A98BF /* PlanList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA847A2085D429006A98BF /* PlanList+CoreDataClass.swift */; };
-		C4EA84812085D429006A98BF /* PlanList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA847B2085D429006A98BF /* PlanList+CoreDataProperties.swift */; };
-		C4EA84822085D429006A98BF /* Pay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA847C2085D429006A98BF /* Pay+CoreDataClass.swift */; };
-		C4EA84832085D429006A98BF /* Pay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA847D2085D429006A98BF /* Pay+CoreDataProperties.swift */; };
 		C4EA848520868ED1006A98BF /* PaymentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA848420868ED1006A98BF /* PaymentTableViewCell.swift */; };
 		C4EA84872087D0AF006A98BF /* EditPlanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA84862087D0AF006A98BF /* EditPlanViewController.swift */; };
+		C4F1AE34208830AD001E7C8E /* Member+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE2C208830AD001E7C8E /* Member+CoreDataClass.swift */; };
+		C4F1AE35208830AD001E7C8E /* Member+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE2D208830AD001E7C8E /* Member+CoreDataProperties.swift */; };
+		C4F1AE36208830AD001E7C8E /* MemberPay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE2E208830AD001E7C8E /* MemberPay+CoreDataClass.swift */; };
+		C4F1AE37208830AD001E7C8E /* MemberPay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE2F208830AD001E7C8E /* MemberPay+CoreDataProperties.swift */; };
+		C4F1AE38208830AD001E7C8E /* Pay+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE30208830AD001E7C8E /* Pay+CoreDataClass.swift */; };
+		C4F1AE39208830AD001E7C8E /* Pay+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE31208830AD001E7C8E /* Pay+CoreDataProperties.swift */; };
+		C4F1AE3A208830AD001E7C8E /* PlanList+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE32208830AD001E7C8E /* PlanList+CoreDataClass.swift */; };
+		C4F1AE3B208830AD001E7C8E /* PlanList+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F1AE33208830AD001E7C8E /* PlanList+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C423C6D32085865A00DF6C1D /* SinglePlanDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePlanDetailViewController.swift; sourceTree = "<group>"; };
 		C423C6D7208594CF00DF6C1D /* AddPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlanViewController.swift; sourceTree = "<group>"; };
 		C423C6DF208597B900DF6C1D /* MemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberTableViewCell.swift; sourceTree = "<group>"; };
 		C46720782067F84B00FDAA91 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -44,14 +44,16 @@
 		C47EBAD82065F77F007B1AC6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C47EBADB2065F77F007B1AC6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C47EBADD2065F77F007B1AC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C4EA84782085D429006A98BF /* Member+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Member+CoreDataClass.swift"; path = "CoreDataTest/Data Model/CoreData/Member+CoreDataClass.swift"; sourceTree = "<group>"; };
-		C4EA84792085D429006A98BF /* Member+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Member+CoreDataProperties.swift"; path = "CoreDataTest/Data Model/CoreData/Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		C4EA847A2085D429006A98BF /* PlanList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PlanList+CoreDataClass.swift"; path = "CoreDataTest/Data Model/CoreData/PlanList+CoreDataClass.swift"; sourceTree = "<group>"; };
-		C4EA847B2085D429006A98BF /* PlanList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PlanList+CoreDataProperties.swift"; path = "CoreDataTest/Data Model/CoreData/PlanList+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		C4EA847C2085D429006A98BF /* Pay+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Pay+CoreDataClass.swift"; path = "CoreDataTest/Data Model/CoreData/Pay+CoreDataClass.swift"; sourceTree = "<group>"; };
-		C4EA847D2085D429006A98BF /* Pay+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Pay+CoreDataProperties.swift"; path = "CoreDataTest/Data Model/CoreData/Pay+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		C4EA848420868ED1006A98BF /* PaymentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTableViewCell.swift; sourceTree = "<group>"; };
 		C4EA84862087D0AF006A98BF /* EditPlanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPlanViewController.swift; sourceTree = "<group>"; };
+		C4F1AE2C208830AD001E7C8E /* Member+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Member+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C4F1AE2D208830AD001E7C8E /* Member+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Member+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C4F1AE2E208830AD001E7C8E /* MemberPay+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberPay+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C4F1AE2F208830AD001E7C8E /* MemberPay+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberPay+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C4F1AE30208830AD001E7C8E /* Pay+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pay+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C4F1AE31208830AD001E7C8E /* Pay+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pay+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		C4F1AE32208830AD001E7C8E /* PlanList+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlanList+CoreDataClass.swift"; sourceTree = "<group>"; };
+		C4F1AE33208830AD001E7C8E /* PlanList+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PlanList+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,13 +78,8 @@
 		C423C6C620856FAD00DF6C1D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C46720782067F84B00FDAA91 /* DetailViewController.swift */,
-				C47EBAD02065F77F007B1AC6 /* HomeViewController.swift */,
-				C467207C2068427B00FDAA91 /* PayDetailViewController.swift */,
-				C467207E2068439A00FDAA91 /* AddPaymentViewController.swift */,
-				C423C6D32085865A00DF6C1D /* SinglePlanDetailViewController.swift */,
-				C423C6D7208594CF00DF6C1D /* AddPlanViewController.swift */,
-				C4EA84862087D0AF006A98BF /* EditPlanViewController.swift */,
+				C4EA849C20882F28006A98BF /* Pay */,
+				C4EA848A20881EAA006A98BF /* Plan */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -90,8 +87,7 @@
 		C423C6C720856FB600DF6C1D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C423C6DF208597B900DF6C1D /* MemberTableViewCell.swift */,
-				C4EA848420868ED1006A98BF /* PaymentTableViewCell.swift */,
+				C4EA848B20881EF7006A98BF /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -106,12 +102,14 @@
 		C47EBAC22065F77F007B1AC6 = {
 			isa = PBXGroup;
 			children = (
-				C4EA84782085D429006A98BF /* Member+CoreDataClass.swift */,
-				C4EA84792085D429006A98BF /* Member+CoreDataProperties.swift */,
-				C4EA847A2085D429006A98BF /* PlanList+CoreDataClass.swift */,
-				C4EA847B2085D429006A98BF /* PlanList+CoreDataProperties.swift */,
-				C4EA847C2085D429006A98BF /* Pay+CoreDataClass.swift */,
-				C4EA847D2085D429006A98BF /* Pay+CoreDataProperties.swift */,
+				C4F1AE2C208830AD001E7C8E /* Member+CoreDataClass.swift */,
+				C4F1AE2D208830AD001E7C8E /* Member+CoreDataProperties.swift */,
+				C4F1AE2E208830AD001E7C8E /* MemberPay+CoreDataClass.swift */,
+				C4F1AE2F208830AD001E7C8E /* MemberPay+CoreDataProperties.swift */,
+				C4F1AE30208830AD001E7C8E /* Pay+CoreDataClass.swift */,
+				C4F1AE31208830AD001E7C8E /* Pay+CoreDataProperties.swift */,
+				C4F1AE32208830AD001E7C8E /* PlanList+CoreDataClass.swift */,
+				C4F1AE33208830AD001E7C8E /* PlanList+CoreDataProperties.swift */,
 				C47EBACD2065F77F007B1AC6 /* CoreDataTest */,
 				C47EBACC2065F77F007B1AC6 /* Products */,
 			);
@@ -139,6 +137,35 @@
 				C47EBAD22065F77F007B1AC6 /* Main.storyboard */,
 			);
 			path = CoreDataTest;
+			sourceTree = "<group>";
+		};
+		C4EA848A20881EAA006A98BF /* Plan */ = {
+			isa = PBXGroup;
+			children = (
+				C47EBAD02065F77F007B1AC6 /* HomeViewController.swift */,
+				C423C6D7208594CF00DF6C1D /* AddPlanViewController.swift */,
+				C4EA84862087D0AF006A98BF /* EditPlanViewController.swift */,
+			);
+			path = Plan;
+			sourceTree = "<group>";
+		};
+		C4EA848B20881EF7006A98BF /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C423C6DF208597B900DF6C1D /* MemberTableViewCell.swift */,
+				C4EA848420868ED1006A98BF /* PaymentTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C4EA849C20882F28006A98BF /* Pay */ = {
+			isa = PBXGroup;
+			children = (
+				C46720782067F84B00FDAA91 /* DetailViewController.swift */,
+				C467207C2068427B00FDAA91 /* PayDetailViewController.swift */,
+				C467207E2068439A00FDAA91 /* AddPaymentViewController.swift */,
+			);
+			path = Pay;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -213,23 +240,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4F1AE38208830AD001E7C8E /* Pay+CoreDataClass.swift in Sources */,
 				C467207F2068439A00FDAA91 /* AddPaymentViewController.swift in Sources */,
-				C4EA847E2085D429006A98BF /* Member+CoreDataClass.swift in Sources */,
 				C47EBAD12065F77F007B1AC6 /* HomeViewController.swift in Sources */,
 				C47EBAD72065F77F007B1AC6 /* CoreDataTest.xcdatamodeld in Sources */,
+				C4F1AE35208830AD001E7C8E /* Member+CoreDataProperties.swift in Sources */,
 				C423C6D8208594CF00DF6C1D /* AddPlanViewController.swift in Sources */,
-				C4EA84812085D429006A98BF /* PlanList+CoreDataProperties.swift in Sources */,
 				C467207D2068427B00FDAA91 /* PayDetailViewController.swift in Sources */,
-				C4EA84802085D429006A98BF /* PlanList+CoreDataClass.swift in Sources */,
 				C4EA84872087D0AF006A98BF /* EditPlanViewController.swift in Sources */,
+				C4F1AE37208830AD001E7C8E /* MemberPay+CoreDataProperties.swift in Sources */,
 				C423C6E0208597B900DF6C1D /* MemberTableViewCell.swift in Sources */,
+				C4F1AE3B208830AD001E7C8E /* PlanList+CoreDataProperties.swift in Sources */,
 				C46720792067F84B00FDAA91 /* DetailViewController.swift in Sources */,
-				C4EA847F2085D429006A98BF /* Member+CoreDataProperties.swift in Sources */,
-				C4EA84832085D429006A98BF /* Pay+CoreDataProperties.swift in Sources */,
-				C423C6D42085865A00DF6C1D /* SinglePlanDetailViewController.swift in Sources */,
+				C4F1AE36208830AD001E7C8E /* MemberPay+CoreDataClass.swift in Sources */,
+				C4F1AE39208830AD001E7C8E /* Pay+CoreDataProperties.swift in Sources */,
+				C4F1AE34208830AD001E7C8E /* Member+CoreDataClass.swift in Sources */,
 				C47EBACF2065F77F007B1AC6 /* AppDelegate.swift in Sources */,
+				C4F1AE3A208830AD001E7C8E /* PlanList+CoreDataClass.swift in Sources */,
 				C4EA848520868ED1006A98BF /* PaymentTableViewCell.swift in Sources */,
-				C4EA84822085D429006A98BF /* Pay+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -33,7 +33,7 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var paymentAmount: UITextField!
     @IBOutlet weak var payViewController: UITableView!
     @IBOutlet weak var payOff: UISwitch!
-    
+    @IBOutlet weak var evenButtonUI: UIButton!
     @IBAction func evenButton(_ sender: UIButton) {
         for index in 0..<member.count{
             member[index].isSpecial = false
@@ -50,7 +50,13 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
         newPayment.name = paymentName.text
         newPayment.isPayOff = payOff.isOn
         newPayment.date = Date() as NSDate
-        newPayment.amount = amount
+        if payOff.isOn{
+            var total: Float = 0
+            member.map{ total += $0.amount}
+            newPayment.amount = total
+        }else{
+            newPayment.amount = amount
+        }
         newPayment.plan = self.selectedPlan
         //memberPay写入
         for memberInfo in (selectedPlan?.members)!{
@@ -68,27 +74,32 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
                 }
             }
         }
+        //更新Plan信息
+        if payOff.isOn{
+            member.map{ amount += $0.amount }
+            selectedPlan?.paid += amount
+            selectedPlan?.rest = (selectedPlan?.amount)! - amount
+        }else{
+            selectedPlan?.amount += amount
+            selectedPlan?.rest += amount
+        }
         //更新member信息
         var arralizeMember:[Member] = Array(selectedPlan!.members!) as! [Member]
         for index in 0..<arralizeMember.count{
             for indexX in 0..<member.count{
                 if member[indexX].name == arralizeMember[index].name!{
                     if payOff.isOn{
-                        arralizeMember[index].amount -= member[index].amount
+                        arralizeMember[index].paid += member[index].amount
+                        arralizeMember[index].rest = arralizeMember[index].amount - member[index].amount
                     }else{
                         arralizeMember[index].amount += member[index].amount
+                        arralizeMember[index].rest += member[index].amount
                     }
                 }
             }
         }
         let newArralizeMember = NSSet(array: arralizeMember)
         selectedPlan?.members = newArralizeMember
-        //更新plan总计
-        if payOff.isOn{
-            selectedPlan?.amount -= amount
-        }else{
-            selectedPlan?.amount += amount
-        }
         //整体写入
         do{
             try context.save()
@@ -100,19 +111,40 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
     
     //计算费用
     @objc func changeAmount(){
-        amount = (paymentAmount.text! as NSString).floatValue
-        rest = amount
-        for index in 0..<member.count{
-            if member[index].isSpecial{
-                rest = rest - member[index].amount
+        if payOff.isOn{
+        }else{
+            amount = (paymentAmount.text! as NSString).floatValue
+            rest = amount
+            for index in 0..<member.count{
+                if member[index].isSpecial{
+                    rest = rest - member[index].amount
+                }
             }
-        }
-        for index in 0..<member.count{
-            if !member[index].isSpecial{
-                member[index].amount = rest / Float(member.filter{!$0.isSpecial}.count)
+            for index in 0..<member.count{
+                if !member[index].isSpecial{
+                    member[index].amount = rest / Float(member.filter{!$0.isSpecial}.count)
+                }
             }
         }
         payViewController.reloadData()
+    }
+    
+    @objc func changeMode(){
+        if payOff.isOn{
+            evenButtonUI.isHidden = true
+            paymentAmount.isHidden = true
+            for index in 0..<member.count{
+                member[index].amount = 0
+                payViewController.reloadData()
+            }
+        }else{
+            paymentAmount.isHidden = false
+            evenButtonUI.isHidden = false
+            for index in 0..<member.count{
+                member[index].isSpecial = false
+            }
+            changeAmount()
+        }
     }
     
     override func viewDidLoad() {
@@ -120,6 +152,7 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
         payViewController.delegate = self
         payViewController.dataSource = self
         paymentAmount.addTarget(self, action: #selector(changeAmount), for: .editingChanged)
+        payOff.addTarget(self, action: #selector(changeMode), for: .valueChanged)
         paymentName.delegate = self
         paymentAmount.delegate = self
         payOff.setOn(false, animated: true)
@@ -143,6 +176,8 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+        paymentAmount.removeTarget(self, action: #selector(changeAmount), for: .editingChanged)
+        payOff.removeTarget(self, action: #selector(changeMode), for: .valueChanged)
     }
     
     //MARK: - Keyboard move
@@ -180,6 +215,7 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
         cell.payment.text = String(member[indexPath.row].amount)
         cell.indexNumber = indexPath.row
         cell.isSpecial = false
+        cell.isPayOff = payOff.isOn
         cell.origin = String(member[indexPath.row].amount)
         cell.delegate = self
         cell.amount = (paymentAmount.text! as NSString).floatValue
@@ -187,9 +223,12 @@ class AddPaymentViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     //MARK: - Textfield Delegate
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.endEditing(true)
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        return true;
+        return true
     }
     
 

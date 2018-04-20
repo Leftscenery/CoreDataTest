@@ -15,6 +15,7 @@ protocol MemberTableViewCellDelegate {
 
 class MemberTableViewCell: UITableViewCell, UITextFieldDelegate {
     
+    var isReturn: Bool = false
     var delegate : MemberTableViewCellDelegate?
     var indexNumber: Int = 0
     @IBOutlet weak var memberName: UITextField!
@@ -28,7 +29,15 @@ class MemberTableViewCell: UITableViewCell, UITextFieldDelegate {
         // Initialization code
     }
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !isReturn{
+            delegate?.updateMemberInfo(index: indexNumber, text: textField.text!)
+        }else{
+            isReturn = false
+        }
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        isReturn = true
         delegate?.updateMemberInfo(index: indexNumber, text: textField.text!)
         return true
     }

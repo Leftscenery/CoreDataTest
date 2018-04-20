@@ -26,43 +26,63 @@ class EditPlanViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var memberTableView: UITableView!
     @IBOutlet weak var isDefault: UISwitch!
     @IBAction func addMember(_ sender: UIButton) {
-        let newMember = memberData()
-        memberArray.append(newMember)
+        addData()
         memberTableView.reloadData()
     }
     //写入数据库建立新项目
     @IBAction func addPlan(_ sender: UIBarButtonItem) {
-        selectedPlan?.name = planName.text
-        selectedPlan?.date = planDate.date as NSDate
-        selectedPlan?.isPayOff = false
-        selectedPlan?.isCurrent = isDefault.isOn
-
-        //NSSet to Array
-        var arralizeMember:[Member] = Array(selectedPlan!.members!) as! [Member]
-        //New Member
-        let newMemberArray = memberArray.filter{ return (($0.origin == "") && ($0.name
-             != ""))}
-        for index in 0..<newMemberArray.count{
-            let newMember = Member()
-            newMember.name = newMemberArray[index].name
-            newMember.amount = 0
-            newMember.paid = 0
-            newMember.rest = 0
-            newMember.plan = selectedPlan
+        updateData()
+        if let navController = self.navigationController {
+            navController.popViewController(animated: true)
         }
-        //Delete Member
-        let deleteMemberArray = memberArray.filter{ return (($0.origin != "") && ($0.name
-            == ""))}
+    }
+    
+    //MARK: - Save
+    //add
+    func addData(){
+        let entityMember = NSEntityDescription.entity(forEntityName: "Member", in: self.getNSContext())
+        let newMember = Member(entity: entityMember!, insertInto: self.getNSContext())
+        newMember.name = ""
+        newMember.amount = 0
+        newMember.paid = 0
+        newMember.rest = 0
+        newMember.plan = selectedPlan
+        do{
+            print("add")
+            try self.getNSContext().save()
+        }catch{}
+        initData()
+        memberTableView.reloadData()
+    }
+    //delete
+    func deleteData(){
+        var arralizeMember:[Member] = Array(selectedPlan!.members!) as! [Member]
+        let deleteMemberArray = memberArray.filter{ return ($0.name
+            == "")}
         for index in 0..<deleteMemberArray.count{
             for indexX in 0..<arralizeMember.count{
                 if deleteMemberArray[index].origin == arralizeMember[indexX].name{
                     arralizeMember.remove(at: indexX)
+                    break
                 }
             }
         }
-        //Update Member
-        let updatedMemberArray = memberArray.filter{ return (($0.origin != "") && ($0.name
-            != ""))}
+        let newArralizeMember = NSSet(array: arralizeMember)
+        selectedPlan?.members = newArralizeMember
+        do{
+            try self.getNSContext().save()
+        }catch{}
+        initData()
+        memberTableView.reloadData()
+    }
+    //update
+    func updateData(){
+        selectedPlan?.name = planName.text
+        selectedPlan?.date = planDate.date as NSDate
+        selectedPlan?.isPayOff = false
+        selectedPlan?.isCurrent = isDefault.isOn
+        var arralizeMember:[Member] = Array(selectedPlan!.members!) as! [Member]
+        let updatedMemberArray = memberArray.filter{ return ($0.origin != $0.name)}
         for index in 0..<updatedMemberArray.count{
             for indexX in 0..<arralizeMember.count{
                 if updatedMemberArray[index].origin == arralizeMember[indexX].name{
@@ -70,26 +90,19 @@ class EditPlanViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
         }
-        //Array to NSSet
         let newArralizeMember = NSSet(array: arralizeMember)
-        //Save
         selectedPlan?.members = newArralizeMember
         do{
             try self.getNSContext().save()
         }catch{}
-        if let navController = self.navigationController {
-            navController.popViewController(animated: true)
-        }
+        initData()
+        memberTableView.reloadData()
     }
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        memberTableView.delegate = self
-        memberTableView.dataSource = self
-        planName.delegate = self
-        
+    //init selectPlan = memberArray
+    func initData(){
         //init
+        memberArray = []
         self.title = selectedPlan?.name
         planName.text = selectedPlan?.name
         planDate.date = (selectedPlan?.date)! as Date
@@ -101,6 +114,14 @@ class EditPlanViewController: UIViewController, UITableViewDelegate, UITableView
             newMemberData.origin = memberContent.name!
             memberArray.append(newMemberData)
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        memberTableView.delegate = self
+        memberTableView.dataSource = self
+        planName.delegate = self
+        initData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,20 +151,23 @@ class EditPlanViewController: UIViewController, UITableViewDelegate, UITableView
     //MARK: - TableView Cell Delegate
     func deleteMemberInfo(index: Int) {
         memberArray[index].name = ""
-        memberTableView.reloadData()
+        deleteData()
     }
     
     func updateMemberInfo(index: Int, text: String) {
         memberArray[index].name = text
         self.view.endEditing(true)
-        memberTableView.reloadData()
+        updateData()
     }
     
     
     //MARK: - Textfield Delegate
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.endEditing(true)
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        return true;
+        return true
     }
     
     

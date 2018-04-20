@@ -13,7 +13,9 @@ protocol PaymentTableViewCellDelegate {
 }
 
 class PaymentTableViewCell: UITableViewCell, UITextFieldDelegate {
+    var isReturn: Bool = false
     var delegate: PaymentTableViewCellDelegate?
+    var isPayOff: Bool = false
     var indexNumber: Int = 0
     var isSpecial: Bool = false
     var origin: String = ""
@@ -27,12 +29,34 @@ class PaymentTableViewCell: UITableViewCell, UITextFieldDelegate {
         // Initialization code
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if (payment.text! as NSString).floatValue > amount{
-            payment.text = String(amount)
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if !isReturn{
+            if isPayOff{
+                delegate?.updateAmount(index: indexNumber, amount: (payment.text! as NSString).floatValue, isSpecial: isSpecial)
+            }else{
+                if (payment.text! as NSString).floatValue > amount{
+                    payment.text = String(amount)
+                }
+                if payment.text != origin{
+                    isSpecial = true
+                }
+            }
+        }else{
+            isReturn = false
         }
-        if payment.text != origin{
-            isSpecial = true
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        isReturn = true
+        if isPayOff{
+            delegate?.updateAmount(index: indexNumber, amount: (payment.text! as NSString).floatValue, isSpecial: isSpecial)
+        }else{
+            if (payment.text! as NSString).floatValue > amount{
+                payment.text = String(amount)
+            }
+            if payment.text != origin{
+                isSpecial = true
+            }
         }
         delegate?.updateAmount(index: indexNumber, amount: (payment.text! as NSString).floatValue, isSpecial: isSpecial)
         return true

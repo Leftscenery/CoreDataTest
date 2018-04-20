@@ -38,7 +38,7 @@ class AddPlanViewController: UIViewController, UITableViewDelegate, UITableViewD
         //导入Member
         for index in 0..<memberArray.count{
             let newMember = Member(entity: entityMember!, insertInto: context)
-            newMember.name = memberArray[index]
+            newMember.name = memberArray[index] == "" ? "newMember\(index)" : memberArray[index]
             newMember.amount = 0
             newMember.paid = 0
             newMember.rest = 0
@@ -99,9 +99,12 @@ class AddPlanViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     
     //MARK: - Textfield Delegate
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.view.endEditing(true)
+    }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
-        return true;
+        return true
     }
     
     

@@ -105,6 +105,10 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         self.title = selectedPlan?.name
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        self.title = selectedPlan?.name
+    }
+    
 //MARK: - FetchControllerDelegate
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.detailView.beginUpdates()
@@ -122,8 +126,8 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         case .delete:
             
             if let _indexPath = indexPath {
+                selectedPlan?.updateAmount()
                 detailView.deleteRows(at: [_indexPath], with: .automatic)
-                
             }
             break
         case .update:
@@ -142,7 +146,11 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = detailView.dequeueReusableCell(withIdentifier: "detailCell", for: indexPath)
         let object = fetchResultsControllerDetail.object(at: indexPath) as! Pay
-        cell.textLabel?.text = object.name
+        if object.isPayOff{
+            cell.textLabel?.text = object.name! + " (PAYOFF)"
+        }else{
+            cell.textLabel?.text = object.name
+        }
         cell.detailTextLabel?.text = String(object.amount)
         return cell
     }
@@ -155,6 +163,9 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         do{
             try getNSContext().save()
         }catch{}
+    }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToReviewDetail", sender: self)
     }
     
 //MARK: - searBar delegate
@@ -196,6 +207,13 @@ class DetailViewController: UITableViewController, UISearchBarDelegate ,NSFetche
         if segue.identifier == "goToEditPlan"{
             let destinationVC = segue.destination as! EditPlanViewController
             destinationVC.selectedPlan = self.selectedPlan
+        }
+        if segue.identifier == "goToReviewDetail"{
+            let destinationVC = segue.destination as! PayDetailViewController
+            destinationVC.selectedPlan = selectedPlan
+            if let indexPath = detailView.indexPathForSelectedRow{
+                destinationVC.selectedPay = (fetchResultsControllerDetail.object(at: indexPath) as! Pay)
+            }
         }
     }
     

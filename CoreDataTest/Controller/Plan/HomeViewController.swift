@@ -110,7 +110,7 @@ class HomeViewController: UIViewController, NSFetchedResultsControllerDelegate, 
         let cell = mainView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let object = fetchResultsController.object(at: indexPath) as! PlanList
         cell.textLabel?.text = object.name
-        cell.detailTextLabel?.text = String(object.amount)
+        cell.detailTextLabel?.text = "Amount:\(object.amount) | Paid:\(object.paid) | Rest:\(object.rest)"
         return cell
     }
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
